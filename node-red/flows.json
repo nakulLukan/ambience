@@ -1,0 +1,197 @@
+[
+    {
+        "id": "662146e65a8d08e1",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "cd687a95.00e108",
+        "type": "ui_group",
+        "name": "WS2812B LED STRIP",
+        "tab": "aa146f4d.b53ca",
+        "order": 1,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "aa146f4d.b53ca",
+        "type": "ui_tab",
+        "name": "Lab",
+        "icon": "dashboard",
+        "order": 1
+    },
+    {
+        "id": "93f55a3a764632ac",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "86f7562213746492",
+        "type": "websocket-listener",
+        "path": "/ws/ambience",
+        "wholemsg": "false"
+    },
+    {
+        "id": "71974de014946a7d",
+        "type": "rpi-neopixels",
+        "z": "662146e65a8d08e1",
+        "name": "WS2812B LED STRIP",
+        "gpio": "18",
+        "pixels": "100",
+        "bgnd": "",
+        "fgnd": "",
+        "wipe": "0",
+        "mode": "pcent",
+        "rgb": "rgb",
+        "brightness": "100",
+        "gamma": true,
+        "x": 660,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "9d74800b69e63b54",
+        "type": "function",
+        "z": "662146e65a8d08e1",
+        "name": "Color transform",
+        "func": "let data = JSON.parse(msg.payload);\nlet maxPixel = data.A;\nlet rgbStr = `${parseInt((data.R / maxPixel) * 255)},${parseInt((data.G / maxPixel) * 255)},${parseInt((data.B / maxPixel) * 255)}`;\n\nreturn {\n    payload:rgbStr\n};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 400,
+        "wires": [
+            [
+                "71974de014946a7d",
+                "d867aae8320ccd68"
+            ]
+        ]
+    },
+    {
+        "id": "136eeca6e5d004a1",
+        "type": "websocket in",
+        "z": "662146e65a8d08e1",
+        "name": "",
+        "server": "86f7562213746492",
+        "client": "",
+        "x": 190,
+        "y": 460,
+        "wires": [
+            [
+                "9d74800b69e63b54"
+            ]
+        ]
+    },
+    {
+        "id": "d867aae8320ccd68",
+        "type": "debug",
+        "z": "662146e65a8d08e1",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 400,
+        "wires": []
+    }
+]

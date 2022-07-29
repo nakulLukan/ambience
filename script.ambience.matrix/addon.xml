@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="script.ambience.matrix" name="Ambience" version="1.0.2" provider-name="gigarepo">
 	<requires>
+		<import addon="script.module.requests" version="2.12.4"/>
+		<import addon="script.module.websocket" version="0.57.0"/>
 	</requires>
 	<extension point="xbmc.python.script" library="addon.py">
 		<provides>executable</provides>

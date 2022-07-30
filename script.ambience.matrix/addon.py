@@ -31,7 +31,7 @@ if ( __name__ == "__main__" ):
 
     ws = create_connection(f"ws://{PI_IP}:1880/ws/ambience")
     notify(dialog, "Ambience", 'Connected to module successfully.')
-    pixel = 16
+    pixel = 256
     was_playing = False
     while not monitor.abortRequested():
         xbmc.sleep(1000)

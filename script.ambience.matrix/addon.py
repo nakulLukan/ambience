@@ -34,7 +34,7 @@ if ( __name__ == "__main__" ):
     pixel = 16
     was_playing = False
     while not monitor.abortRequested():
-        xbmc.sleep(500)
+        xbmc.sleep(1000)
         is_playing = player.isPlayingVideo()
         if not is_playing:
             if was_playing:
@@ -45,7 +45,7 @@ if ( __name__ == "__main__" ):
         was_playing = True
 
         capture.capture(int(pixel * capture.getAspectRatio()),pixel)
-        image = capture.getImage(500)
+        image = capture.getImage()
         image_len = len(image)
         hasImage = image_len > 0
         if not hasImage:

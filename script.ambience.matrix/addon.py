@@ -3,7 +3,8 @@ import xbmc
 import json
 import xbmcaddon
 from websocket import create_connection
-import socket
+
+PI_IP = "192.168.1.36"
 
 addon_icon_path = ''
 
@@ -28,8 +29,7 @@ if ( __name__ == "__main__" ):
     notify(dialog, "Ambience", 'Activated')
     player = xbmc.Player()
 
-    ip = socket.gethostbyname('raspberrypi.local')
-    ws = create_connection(f"ws://{ip}:1880/ws/ambience")
+    ws = create_connection(f"ws://{PI_IP}:1880/ws/ambience")
     notify(dialog, "Ambience", 'Connected to module successfully.')
     pixel = 32
     was_playing = False

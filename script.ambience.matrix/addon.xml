@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.ambience.matrix" name="Ambience" version="1.0.2" provider-name="gigarepo">
+<addon id="script.ambience.matrix" name="Ambience" version="1.0.2" provider-name="nakulLukan">
 	<requires>
-		<import addon="script.module.requests" version="2.12.4"/>
 		<import addon="script.module.websocket" version="0.57.0"/>
 	</requires>
 	<extension point="xbmc.python.script" library="addon.py">
@@ -9,17 +8,12 @@
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary lang="en">Ambience</summary>
-		<description lang="en">Ambilight effect</description>
+		<description lang="en">Connect kodi video to 'Ambience' backend. Ambience projects with dynamic lighting.</description>
 		<license>GNU General Public License, v2</license>
 		<language></language>
 		<forum></forum>
 		<assets>
 			<icon>icon.png</icon>
-			<fanart>fanart.jpg</fanart>
-			<screenshot>resources/screenshot-01.jpg</screenshot>
-			<screenshot>resources/screenshot-02.jpg</screenshot>
-			<screenshot>resources/screenshot-03.jpg</screenshot>
 		</assets>
-		<news>Updated the addon to use new addon.xml metadata</news>
 	</extension>
 </addon>

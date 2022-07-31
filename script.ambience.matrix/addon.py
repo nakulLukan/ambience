@@ -26,7 +26,7 @@ if ( __name__ == "__main__" ):
     dialog.notification("Ambience", 'Activated')
     player = xbmc.Player()
 
-    ws = create_connection(f"ws://{PI_IP}:1880/ws/ambience")
+    ws = create_connection("ws://192.168.1.36:1880/ws/ambience")
     dialog.notification("Ambience", 'Connected to module successfully.')
     pixel = 128
     was_playing = False

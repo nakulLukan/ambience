@@ -31,10 +31,10 @@ if ( __name__ == "__main__" ):
 
     ws = create_connection(f"ws://{PI_IP}:1880/ws/ambience")
     notify(dialog, "Ambience", 'Connected to module successfully.')
-    pixel = 32
+    pixel = 128
     was_playing = False
     while not monitor.abortRequested():
-        xbmc.sleep(20)
+        xbmc.sleep(100)
         is_playing = player.isPlayingVideo()
         if not is_playing:
             if was_playing:
@@ -45,7 +45,7 @@ if ( __name__ == "__main__" ):
         was_playing = True
 
         capture.capture(int(pixel * capture.getAspectRatio()),pixel)
-        image = capture.getImage(20)
+        image = capture.getImage(100)
         image_len = len(image)
         hasImage = image_len > 0
         if not hasImage:

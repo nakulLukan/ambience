@@ -1,10 +1,11 @@
+from requests import head
 import xbmcgui
 import xbmc
 import json
 import xbmcaddon
 from websocket import create_connection
 
-PI_IP = "192.168.1.36"
+PI_IP = "raspberrypi.local"
 
 addon_icon_path = ''
 
@@ -16,6 +17,9 @@ def send_pixel(ws, R, G, B, A):
             "A": int(A)
         }))
 
+def notify(dialog:xbmcgui.Dialog, heading: str, description: str):
+    dialog.notification(heading, description, addon_icon_path)
+
 if ( __name__ == "__main__" ):
     addon = xbmcaddon.Addon()
     monitor = xbmc.Monitor()
@@ -23,15 +27,18 @@ if ( __name__ == "__main__" ):
     dialog = xbmcgui.Dialog()
 
     addon_icon_path = addon.getAddonInfo('path') + '/icon.png'
-    dialog.notification("Ambience", 'Activated')
+    notify(dialog, "Ambience", 'Activated')
     player = xbmc.Player()
 
-    ws = create_connection("ws://192.168.1.36:1880/ws/ambience")
-    dialog.notification("Ambience", 'Connected to module successfully.')
+    ws = create_connection(f"ws://{PI_IP}/ws/ambience")
+    notify(dialog, "Ambience", 'Connected to module successfully.')
+
     pixel = 128
+    sleep_time = 33
+
     was_playing = False
     while not monitor.abortRequested():
-        xbmc.sleep(100)
+        xbmc.sleep(sleep_time)
         is_playing = player.isPlayingVideo()
         if not is_playing:
             if was_playing:
@@ -40,18 +47,18 @@ if ( __name__ == "__main__" ):
             continue
         
         was_playing = True
+        
+        row = int(pixel * capture.getAspectRatio())
+        col = pixel
 
-        capture.capture(int(pixel * capture.getAspectRatio()),pixel)
-        image = capture.getImage(100)
+        capture.capture(row, col)
+        image = capture.getImage(sleep_time)
         image_len = len(image)
         hasImage = image_len > 0
         if not hasImage:
             continue
 
-        B = 0
-        G = 0
-        R = 0
-        A = 0
+        B = G = R = A = 0
 
         b = 0
         g = 1
@@ -76,5 +83,5 @@ if ( __name__ == "__main__" ):
             B / iteration,
             A / iteration)
     
-    dialog.notification("Ambience", "XBMC monitor aborted")
+    notify(dialog, "Ambience", "XBMC monitor aborted")
     ws.close()

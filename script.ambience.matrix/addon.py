@@ -16,9 +16,6 @@ def send_pixel(ws, R, G, B, A):
             "A": int(A)
         }))
 
-def notify(dialog: xbmcgui.Dialog, heading: str, description: str):
-    dialog.notification(heading, description, addon_icon_path)
-
 if ( __name__ == "__main__" ):
     addon = xbmcaddon.Addon()
     monitor = xbmc.Monitor()
@@ -26,11 +23,11 @@ if ( __name__ == "__main__" ):
     dialog = xbmcgui.Dialog()
 
     addon_icon_path = addon.getAddonInfo('path') + '/icon.png'
-    notify(dialog, "Ambience", 'Activated')
+    dialog.notification("Ambience", 'Activated')
     player = xbmc.Player()
 
     ws = create_connection(f"ws://{PI_IP}:1880/ws/ambience")
-    notify(dialog, "Ambience", 'Connected to module successfully.')
+    dialog.notification("Ambience", 'Connected to module successfully.')
     pixel = 128
     was_playing = False
     while not monitor.abortRequested():
@@ -78,6 +75,6 @@ if ( __name__ == "__main__" ):
             G / iteration,
             B / iteration,
             A / iteration)
-
-    notify(dialog, "Aborted", "XBMC monitor aborted")
+    
+    dialog.notification("Ambience", "XBMC monitor aborted")
     ws.close()

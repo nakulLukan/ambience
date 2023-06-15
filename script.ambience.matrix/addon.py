@@ -6,7 +6,7 @@ from websocket import create_connection
 import socket
 
 PI_HOST_NAME = "raspberrypi"
-PI_IP = f"{socket.gethostbyname('raspberrypi')}:1880"
+PI_IP = f"192.168.1.36:1880"
 
 addon_icon_path = ''
 

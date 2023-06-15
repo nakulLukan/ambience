@@ -3,18 +3,20 @@ import xbmc
 import json
 import xbmcaddon
 from websocket import create_connection
+import socket
 
-PI_IP = "raspberrypi"
+PI_HOST_NAME = "raspberrypi"
+PI_IP = f"{socket.gethostbyname('raspberrypi')}:1880"
 
 addon_icon_path = ''
 
-# def send_pixel(ws, R, G, B, A):
-#     ws.send(json.dumps({
-#             "R": int(R),
-#             "G": int(G),
-#             "B": int(B),
-#             "A": int(A)
-#         }))
+def send_pixel(ws, R, G, B, A):
+    ws.send(json.dumps({
+            "R": int(R),
+            "G": int(G),
+            "B": int(B),
+            "A": int(A)
+        }))
 
 def notify(dialog:xbmcgui.Dialog, heading: str, description: str):
     dialog.notification(heading, description, addon_icon_path, time=30)
@@ -29,7 +31,7 @@ if ( __name__ == "__main__" ):
     notify(dialog, "Ambience", 'Activated')
     player = xbmc.Player()
 
-    # ws = create_connection(f"ws://{PI_IP}/ws/ambience")
+    ws = create_connection(f"ws://{PI_IP}/ws/ambience")
     notify(dialog, "Ambience", 'Connected to module successfully.')
 
     pixel = 128
@@ -41,7 +43,7 @@ if ( __name__ == "__main__" ):
         is_playing = player.isPlayingVideo()
         if not is_playing:
             if was_playing:
-                # send_pixel(ws, 0, 0, 0, 0)
+                send_pixel(ws, 0, 0, 0, 0)
                 was_playing = False
             continue
         
@@ -75,13 +77,13 @@ if ( __name__ == "__main__" ):
             g = g + 4
             b = b + 4
             a = a + 4
-        notify(dialog, "Ambience", f'{int(R / iteration)} + {int(G /iteration)} + {int(B /iteration)} + {int(A /iteration)}')
+        # notify(dialog, "Ambience", f'{int(R / iteration)} + {int(G /iteration)} + {int(B /iteration)} + {int(A /iteration)}')
         
-        # send_pixel(ws,
-        #     R / iteration, 
-        #     G / iteration,
-        #     B / iteration,
-        #     A / iteration)
+        send_pixel(ws,
+            R / iteration, 
+            G / iteration,
+            B / iteration,
+            A / iteration)
     
     notify(dialog, "Ambience", "XBMC monitor aborted")
-    # ws.close()
+    ws.close()
